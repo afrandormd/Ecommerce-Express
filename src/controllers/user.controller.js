@@ -13,7 +13,11 @@ export const getUsers = async (req, res) => {
       data: users,
     });
   } catch (error) {
-    res.status(500).json({ message: "Failed to fetch users", error });
+    return res.status(500).json({
+      success: false,
+      message: "Failed to get all user",
+      error: error.message,
+    });
   }
 };
 
@@ -28,7 +32,11 @@ export const getUser = async (req, res) => {
       data: user,
     });
   } catch (error) {
-    res.status(500).json({ message: "Failed to fetch users", error });
+    return res.status(500).json({
+      success: false,
+      message: "Failed to get user by ID",
+      error: error.message,
+    });
   }
 };
 
@@ -42,7 +50,11 @@ export const addUser = async (req, res) => {
       data: user,
     });
   } catch (error) {
-    res.status(500).json({ message: "Failed to create user", error });
+    return res.status(500).json({
+      success: false,
+      message: "Failed to create user",
+      error: error.message,
+    });
   }
 };
 
@@ -57,7 +69,11 @@ export const editUser = async (req, res) => {
       data: user,
     });
   } catch (error) {
-    res.status(500).json({ message: "Failed to update user", error });
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update user",
+      error: error.message,
+    });
   }
 };
 
@@ -71,6 +87,10 @@ export const removeUser = async (req, res) => {
       data: null,
     });
   } catch (error) {
-    res.status(500).json({ message: "Failed to delete user", error });
+    return res.status(500).json({
+      success: false,
+      message: "Failed to delete user",
+      error: error.message,
+    });
   }
 };
