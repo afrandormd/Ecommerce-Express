@@ -2,6 +2,8 @@ import {
   getAllUsers,
   createUser,
   getUserById,
+  updateUser,
+  deleteUser,
 } from "../services/user.service.js";
 
 export const getUsers = async (req, res) => {
