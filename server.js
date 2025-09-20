@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import userRoutes from "./src/routes/user.routes.js";
 // import swaggerUi from "swagger-ui-express";
 // import { readFile } from "fs/promises";
 
@@ -20,6 +21,8 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.send("API is Running!");
 });
+
+app.use("/users", userRoutes);
 
 app.listen(PORT, () => {
   `Server started on port ${port}`;
