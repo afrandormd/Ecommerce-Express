@@ -1,0 +1,57 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Judul RESTful API",
+    "description": "",
+    "version": "1.0.0",
+    "contact": {
+      "name": "API Support",
+      "url": "https://namadomain.com/support",
+      "email": ""
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "description": "Online Server",
+      "url": "https://{environment}.namadomain.com/api/v1",
+      "variables": {
+        "environment": {
+          "description": "Server Environment",
+          "default": "dev",
+          "enum": ["dev", "staging", "prod"]
+        }
+      }
+    },
+    {
+      "description": "Local Server",
+      "url": "http://localhost:{port}/api/v1",
+      "variables": {
+        "port": {
+          "default": "3000",
+          "enum": ["3000", "4000"]
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "tags": ["Testing"],
+        "summary": "Ambil seluruh data ...",
+        "responses": {}
+      },
+      "post": {
+        "description": "",
+        "summary": "Tambah data"
+      },
+      "put": {},
+      "delete": {}
+    }
+  },
+  "components": {}
+}
