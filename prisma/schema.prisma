@@ -5,13 +5,72 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String
-  password  String
+  id       String    @id @default(uuid())
+  name     String
+  email    String    @unique
+  password String
   createdAt DateTime @default(now())
+  invoices Invoice[]
+  carts    Cart[]
+
+  @@map("users")
+}
+
+model Inventory {
+  id          String    @id @default(uuid())
+  name        String
+  description String?
+  products    Product[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("inventories")
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  image       String
+  price       Int
+  stock       Int
+  description String
+  inventory   Inventory @relation(fields: [inventoryId], references: [id])
+  inventoryId String
+  carts       Cart[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("products")
+}
+
+model Cart {
+  id        String   @id @default(uuid())
+  productId String
+  quantity  Int
+  total     Int
+  product   Product  @relation(fields: [productId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("carts")
+}
+
+
+model Invoice {
+  id      String      @id @default(uuid())
+  email   String
+  name    String
+  phone   String
+  items   String   
+  total   Int
+  date    DateTime @default(now())
+  userId  String?
+  user    User?     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("invoices")
 }
