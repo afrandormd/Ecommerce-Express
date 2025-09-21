@@ -1,16 +1,22 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
+import dotenv from "dotenv";
 import userRoutes from "./src/routes/user.routes.js";
 
 const app = express();
 
-app.use(cors());
+// Load .env
+dotenv.config();
 
+// Middlewares
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 app.get("/", (req, res) => {
-  res.send("API is Running!");
+  res.send("API Ecommerce Express is Running!");
 });
 
 app.use("/users", userRoutes);
