@@ -5,21 +5,14 @@ import {
   updateUser,
   deleteUser,
 } from "../services/user.service.js";
+import { errorResponse, successResponse } from "../utils/responses.js";
 
 export const getUsers = async (req, res) => {
   try {
     const users = await getAllUsers();
-    return res.status(200).json({
-      success: true,
-      message: "Get All Data User",
-      data: users,
-    });
+    return successResponse(res, "Get All Data Users", users, 200);
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to get all user",
-      error: error.message,
-    });
+    return errorResponse(res, error.message, null, 500);
   }
 };
 
@@ -28,17 +21,9 @@ export const getUser = async (req, res) => {
     const { id } = req.params;
     const user = await getUserById(id);
     if (!user) return res.status(404).json({ message: "User not found" });
-    return res.status(200).json({
-      success: true,
-      message: `Get Data User ID: ${id}`,
-      data: user,
-    });
+    return successResponse(res, `Get Data User ID ${id}`, user, 200);
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to get user by ID",
-      error: error.message,
-    });
+    return errorResponse(res, error.message, null, 500);
   }
 };
 
@@ -46,17 +31,14 @@ export const addUser = async (req, res) => {
   try {
     const { email, name, password } = req.body;
     const user = await createUser({ email, name, password });
-    return res.status(201).json({
-      success: true,
-      message: "Create Data User",
-      data: user,
-    });
+    return successResponse(
+      res,
+      `Success creating data user with name ${name}`,
+      user,
+      201,
+    );
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to create user",
-      error: error.message,
-    });
+    return errorResponse(res, error.message, null, 500);
   }
 };
 
@@ -65,17 +47,14 @@ export const editUser = async (req, res) => {
     const { id } = req.params;
     const { email, name, password } = req.body;
     const user = await updateUser(id, { email, name, password });
-    return res.status(200).json({
-      success: true,
-      message: "Update Data User Successfully",
-      data: user,
-    });
+    return successResponse(
+      res,
+      `Success updating data user with name ${name}`,
+      user,
+      200,
+    );
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to update user",
-      error: error.message,
-    });
+    return errorResponse(res, error.message, null, 500);
   }
 };
 
@@ -83,16 +62,13 @@ export const removeUser = async (req, res) => {
   try {
     const { id } = req.params;
     await deleteUser(id);
-    return res.status(200).json({
-      success: true,
-      message: "Delete Data User Successfully",
-      data: null,
-    });
+    return successResponse(
+      res,
+      `Success deleting data user with ID: ${id}`,
+      null,
+      200,
+    );
   } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Failed to delete user",
-      error: error.message,
-    });
+    return errorResponse(res, error.message, null, 500);
   }
 };
