@@ -53,3 +53,13 @@ export const login = async (req, res) => {
     token: token,
   });
 };
+
+// Logout
+export const logout = async (req, res) => {
+  res.clearCookie("token", {
+    ...cookieOptions(req),
+    maxAge: undefined, // override maxAge for deleting cookie has expired
+  });
+
+  return successResponse(res, "Logout Successfully");
+};
