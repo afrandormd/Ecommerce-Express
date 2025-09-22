@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import userRoutes from "./src/routes/user.routes.js";
+import authRoutes from "./src/routes/auth.route.js";
 
 const app = express();
 
@@ -15,10 +16,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
+// Routes
 app.get("/", (req, res) => {
   res.send("API Ecommerce Express is Running!");
 });
 
 app.use("/users", userRoutes);
+app.use("/auth", authRoutes);
 
 export default app;
