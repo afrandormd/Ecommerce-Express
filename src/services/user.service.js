@@ -1,5 +1,10 @@
 import prisma from "../../prisma/client/index.js";
 
+// Find User By Email
+export const findUserByEmail = async (email) => {
+  return await prisma.user.findUnique({ where: { email } });
+};
+
 // Get All Users
 export const getAllUsers = async () => {
   return await prisma.user.findMany({
