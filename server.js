@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import userRoutes from "./src/routes/user.routes.js";
 import authRoutes from "./src/routes/auth.route.js";
+import inventoryRoutes from "./src/routes/inventory.route.js";
 
 const app = express();
 
@@ -21,7 +22,8 @@ app.get("/", (req, res) => {
   res.send("API Ecommerce Express is Running!");
 });
 
-app.use("/users", userRoutes);
-app.use("/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/inventories", inventoryRoutes);
 
 export default app;
