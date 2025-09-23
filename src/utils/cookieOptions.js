@@ -4,7 +4,7 @@ const cookieOptions = (req) => {
   return {
     httpOnly: true,
     secure: isProduction && req.hostname !== "localhost",
-    sameSite: "Strict",
+    sameSite: "None", // if FE different domain set to "None"
     path: "/",
     maxAge: 24 * 60 * 60 * 1000, // 1 hari
   };
