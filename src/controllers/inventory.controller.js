@@ -1,7 +1,9 @@
 import {
   createInventory,
+  deleteInventory,
   getAllInventories,
   getInventoryById,
+  updateInventory,
 } from "../services/inventory.service.js";
 import { errorResponse, successResponse } from "../utils/responses.js";
 
@@ -43,6 +45,40 @@ export const addInventory = async (req, res) => {
   }
 };
 
-export const editInventory = async (req, res) => {};
+export const editInventory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, description } = req.body;
 
-export const removeInventory = async (req, res) => {};
+    // ID Validation
+    if (!id) {
+      return errorResponse(res, "ID parameter is required", null, 400);
+    }
+    const inventory = await updateInventory(id, { name, description });
+
+    return successResponse(
+      res,
+      `Success updating data inventory with name ${name}`,
+      inventory,
+      200,
+    );
+  } catch (error) {
+    return errorResponse(res, error.message, null, 500);
+  }
+};
+
+export const removeInventory = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await deleteInventory(id);
+    return successResponse(
+      res,
+      `Success deleting data inventory with ID: ${id}`,
+      null,
+      200,
+    );
+  } catch (error) {
+    return errorResponse(res, error.message, null, 500);
+  }
+};

@@ -11,3 +11,16 @@ export const getInventoryById = async (id) => {
 export const createInventory = async (data) => {
   return await prisma.inventory.create({ data });
 };
+
+export const updateInventory = async (id, data) => {
+  return await prisma.inventory.update({
+    where: { id: id },
+    data,
+  });
+};
+
+export const deleteInventory = async (id) => {
+  return await prisma.inventory.delete({
+    where: { id: id },
+  });
+};

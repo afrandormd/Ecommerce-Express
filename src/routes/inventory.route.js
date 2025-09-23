@@ -6,7 +6,7 @@ import {
   addInventory,
   editInventory,
   removeInventory,
-} from "../controllers/inventory.route.js";
+} from "../controllers/inventory.controller.js";
 
 const router = Router();
 
