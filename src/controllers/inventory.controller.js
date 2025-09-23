@@ -54,6 +54,11 @@ export const editInventory = async (req, res) => {
     if (!id) {
       return errorResponse(res, "ID parameter is required", null, 400);
     }
+
+    // Fill Data Validation
+    if (!name || !description)
+      return errorResponse(res, "Please fill all data", null, 401);
+
     const inventory = await updateInventory(id, { name, description });
 
     return successResponse(
@@ -72,6 +77,7 @@ export const removeInventory = async (req, res) => {
     const { id } = req.params;
 
     await deleteInventory(id);
+
     return successResponse(
       res,
       `Success deleting data inventory with ID: ${id}`,
