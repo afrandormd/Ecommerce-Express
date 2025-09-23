@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import userRoutes from "./src/routes/user.routes.js";
 import authRoutes from "./src/routes/auth.route.js";
 import inventoryRoutes from "./src/routes/inventory.route.js";
+import productRoutes from "./src/routes/product.route.js";
 
 const app = express();
 
@@ -25,5 +26,6 @@ app.get("/", (req, res) => {
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/inventories", inventoryRoutes);
+app.use("/api/products", productRoutes);
 
 export default app;

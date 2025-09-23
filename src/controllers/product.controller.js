@@ -1,7 +1,7 @@
 import {
   createProduct,
   deleteProduct,
-  getAllInventories,
+  getAllProducts,
   getProductById,
   updateProduct,
 } from "../services/product.service.js";
@@ -9,7 +9,7 @@ import { errorResponse, successResponse } from "../utils/responses.js";
 
 export const getProducts = async (req, res) => {
   try {
-    const inventories = await getAllInventories();
+    const inventories = await getAllProducts();
     return successResponse(res, "Get All Data Inventories", inventories);
   } catch (error) {
     return errorResponse(res, error.message, null, 500);
