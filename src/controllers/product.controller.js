@@ -92,7 +92,31 @@ export const addProduct = async (req, res) => {
   try {
     const { name, price, stock, description, inventoryId } = req.body;
 
-    const image = req.file ? `/uploads/${req.file.filename}` : null;
+    // const image = req.file ? `/uploads/${req.file.filename}` : null;
+
+    let imageUrl = null;
+
+    if (req.file) {
+      if (process.env.NODE_ENV === "production") {
+        // Production: Upload buffer to Cloudinary
+        try {
+          imageUrl = await uploadToCloudinary(
+            req.file.buffer,
+            req.file.originalname,
+          );
+        } catch (cloudinaryError) {
+          return errorResponse(
+            res,
+            "Failed to upload image to cloud storage",
+            null,
+            500,
+          );
+        }
+      } else {
+        // Development: Local file path
+        imageUrl = `/uploads/${req.file.filename}`;
+      }
+    }
 
     if (!name || !description)
       return errorResponse(res, "Please fill all data", null, 400);
@@ -103,21 +127,28 @@ export const addProduct = async (req, res) => {
       price: parseFloat(price), // e.g 100.000
       stock: parseInt(stock), // e.g "1000" -> 1000
       description,
-      image,
+      image: imageUrl,
       inventoryId,
     };
 
     const product = await createProduct(parsedData);
 
-    // Get Host
-    const baseUrl = `${req.protocol}://${req.get("host")}`;
+    // Different response for dev vs production
+    let responseData = { ...product };
+
+    if (process.env.NODE_ENV === "development" && product.image) {
+      // Development: adds base URL
+      const baseUrl = `${req.protocol}://${req.get("host")}`;
+      responseData.image = `${baseUrl}${product.image}`;
+    }
 
     return successResponse(
       res,
       `Success creating data product with name ${name}`,
       {
-        ...product,
-        image: product.image ? `${baseUrl}${product.image}` : null,
+        // ...product,
+        // image: product.image ? `${baseUrl}${product.image}` : null,
+        responseData,
       },
       201,
     );

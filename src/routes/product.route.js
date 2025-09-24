@@ -8,7 +8,7 @@ import {
   removeProduct,
   getProductByInventory,
 } from "../controllers/product.controller.js";
-import { upload } from "../middlewares/upload.js";
+import upload from "../middlewares/upload.js";
 
 const router = Router();
 
