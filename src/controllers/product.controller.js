@@ -92,19 +92,23 @@ export const addProduct = async (req, res) => {
   try {
     const { name, price, stock, description, inventoryId } = req.body;
 
-    // const image = req.file ? `/uploads/${req.file.filename}` : null;
+    console.log("NODE_ENV:", process.env.NODE_ENV);
+    console.log("File info:", req.file);
 
     let imageUrl = null;
 
     if (req.file) {
       if (process.env.NODE_ENV === "production") {
+        console.log("Attempting Cloudinary upload...");
         // Production: Upload buffer to Cloudinary
         try {
           imageUrl = await uploadToCloudinary(
             req.file.buffer,
             req.file.originalname,
           );
+          console.log("Cloudinary upload successful:", imageUrl);
         } catch (cloudinaryError) {
+          console.error("Cloudinary Error Details:", cloudinaryError);
           return errorResponse(
             res,
             "Failed to upload image to cloud storage",
@@ -115,6 +119,7 @@ export const addProduct = async (req, res) => {
       } else {
         // Development: Local file path
         imageUrl = `/uploads/${req.file.filename}`;
+        console.log("Local upload:", imageUrl);
       }
     }
 
@@ -153,6 +158,7 @@ export const addProduct = async (req, res) => {
       201,
     );
   } catch (error) {
+    console.error("Controller Error:", error);
     return errorResponse(res, error.message, null, 500);
   }
 };
